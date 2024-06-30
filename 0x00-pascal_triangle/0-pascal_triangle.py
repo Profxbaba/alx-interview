@@ -1,5 +1,9 @@
 def pascal_triangle(n):
-    """Generate Pascal's Triangle up to the nth row"""
+    """
+    Returns a list of lists of integers representing Pascal's triangle of n.
+    Returns an empty list if n <= 0.
+    """
+
     if n <= 0:
         return []
     
@@ -13,3 +17,13 @@ def pascal_triangle(n):
         triangle.append(row)
     
     return triangle
+
+if __name__ == "__main__":
+    def print_triangle(triangle):
+        """
+        Print the triangle
+        """
+        for row in triangle:
+            print("[{}]".format(",".join([str(x) for x in row])))
+
+    print_triangle(pascal_triangle(5))
