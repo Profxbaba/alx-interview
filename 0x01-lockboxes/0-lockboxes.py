@@ -5,6 +5,7 @@ Module for checking if all lockboxes can be opened.
 
 from typing import List
 
+
 def canUnlockAll(boxes: List[List[int]]) -> bool:
     """
     Determines if all lockboxes can be opened.
@@ -33,13 +34,13 @@ def canUnlockAll(boxes: List[List[int]]) -> bool:
 
     return all(visited)
 
+
 if __name__ == "__main__":
-    boxes = [[1], [2], [3], [4], []]
-    print(canUnlockAll(boxes))
+    boxes1 = [[1], [2], [3], [4], []]
+    print(canUnlockAll(boxes1))
 
-    boxes = [[1, 4, 6], [2], [0, 4, 1], [5, 6, 2], [3], [4, 1], [6]]
-    print(canUnlockAll(boxes))
+    boxes2 = [[1, 4, 6], [2], [0, 4, 1], [5, 6, 2], [3], [4, 1], [6]]
+    print(canUnlockAll(boxes2))
 
-    boxes = [[1, 4], [2], [0, 4, 1], [3], [], [4, 1], [5, 6]]
-    print(canUnlockAll(boxes))
-
+    boxes3 = [[1, 4], [2], [0, 4, 1], [3], [], [4, 1], [5, 6]]
+    print(canUnlockAll(boxes3))
