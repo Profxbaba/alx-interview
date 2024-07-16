@@ -1,11 +1,21 @@
 #!/usr/bin/python3
 
-
 import sys
 import signal
 
+# Dictionary to store status codes and their counts
+status_codes = {
+    '200': 0, '301': 0, '400': 0, '401': 0,
+    '403': 0, '404': 0, '405': 0, '500': 0
+}
 
-def print_stats(total_size, status_codes):
+total_size = 0  # Total file size accumulator
+line_count = 0  # Line count accumulator
+
+
+def print_stats():
+    """Print current statistics."""
+    global total_size
     print(f"File size: {total_size}")
     for code in sorted(status_codes.keys()):
         if status_codes[code] > 0:
@@ -13,38 +23,37 @@ def print_stats(total_size, status_codes):
 
 
 def signal_handler(sig, frame):
-    print_stats(total_size, status_codes)
+    """Signal handler for SIGINT (Ctrl+C)."""
+    print_stats()
     sys.exit(0)
 
 
 def main():
-    line_count = 0
-    total_size = 0
-    status_codes = {
-        '200': 0, '301': 0, '400': 0, '401': 0,
-        '403': 0, '404': 0, '405': 0, '500': 0
-    }
+    global line_count, total_size
 
-    try:
-        for line in sys.stdin:
-            try:
-                parts = line.split()
-                size = int(parts[-1])
-                code = parts[-2]
-                if code in status_codes:
-                    status_codes[code] += 1
-                total_size += size
-            except Exception:
-                pass
+    signal.signal(signal.SIGINT, signal_handler)
 
+    for line in sys.stdin:
+        try:
+            parts = line.split()
+            ip_address = parts[0]
+            date = parts[3].strip('[]')
+            request = parts[5]
+            status_code = parts[8]
+            file_size = int(parts[9])
+
+            if status_code in status_codes:
+                status_codes[status_code] += 1
+
+            total_size += file_size
             line_count += 1
+
             if line_count == 10:
-                print_stats(total_size, status_codes)
+                print_stats()
                 line_count = 0
 
-    except KeyboardInterrupt:
-        signal.signal(signal.SIGINT, signal_handler)
-        print_stats(total_size, status_codes)
+        except Exception as e:
+            continue
 
 
 if __name__ == "__main__":
