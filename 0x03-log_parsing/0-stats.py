@@ -15,6 +15,7 @@ status_codes = {
 total_size = 0  # Total file size accumulator
 line_count = 0  # Line count accumulator
 
+
 def print_stats():
     """Print current statistics."""
     global total_size
@@ -23,10 +24,12 @@ def print_stats():
         if status_codes[code] > 0:
             print(f"{code}: {status_codes[code]}")
 
+
 def signal_handler(sig, frame):
     """Signal handler for SIGINT (Ctrl+C)."""
     print_stats()
     sys.exit(0)
+
 
 def main():
     global line_count, total_size
@@ -57,6 +60,6 @@ def main():
 
     print_stats()
 
+
 if __name__ == "__main__":
     main()
-
